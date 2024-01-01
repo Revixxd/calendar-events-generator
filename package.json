@@ -11,10 +11,13 @@
   "dependencies": {
     "file-saver": "^2.0.5",
     "ics": "^3.5.0",
+    "pinia": "^2.1.7",
     "vue": "^3.3.8"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.5.0",
+    "sass": "^1.69.6",
+    "sass-loader": "^13.3.3",
     "typescript": "^5.2.2",
     "vite": "^5.0.0",
     "vue-tsc": "^1.8.22"
