@@ -1,23 +1,33 @@
 
 <template>
   <div class="app">
-    <div class="desktopContainer">
-      {{ appStore.currentPage }}
-      <div v-for="component in appStore.getPageData.desktop">
+    <div v-if="appStore.isMobile === false" class="desktop-container" :class="appStore.layout">
+      <DesktopComponentContainer v-for="component in appStore.getPageData.desktop">
+        <component :is="component"></component>
+      </DesktopComponentContainer>
+    </div>
+    <div v-else class="mobileContainer" :class="appStore.layout">
+      <div v-for="component in appStore.getPageData.mobile">
         <component :is="component"></component>
       </div>
-      <button @click="appStore.setCurrentPage(pagesEnum.calendar)">change</button>
-    </div>
-    <div class="mobileContainer">
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { pagesEnum } from './pages'
+import { watch } from 'vue';
 import { useAppStore } from './stores/appState'
+import { useMediaQuery } from '@vueuse/core'
+import DesktopComponentContainer from './components/containers/DesktopComponentContainer.vue'
 
 const appStore = useAppStore()
+const isMobile = useMediaQuery('(max-width: 800px)')
+
+console.log(appStore.getPageData)
+
+watch(isMobile, (isMobile) => {
+  appStore.setIsMobile(isMobile)
+})
 
 </script>
 
@@ -25,18 +35,41 @@ const appStore = useAppStore()
 .app {
   height: 100vh;
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
   background-color: green;
 
-  .main-container {
-    width: 100%;
-    max-width: 90vw;
-    height: 20vh;
-    background-color: red;
+  .desktop-container {
+    width: 90vw;
+    height: 80vh;
+    max-width: 2500px;
+    display: flex;
+    gap: 20px;
+    flex-direction: row;
+  }
+}
+
+.fiftyFifty {
+  display: flex;
+
+  div:nth-child(1) {
+    flex: 50;
   }
 
-  .side-container {}
+  div:nth-child(2) {
+    flex: 50;
+  }
+}
+
+.seventyThird {
+  display: flex;
+
+  div:nth-child(1) {
+    flex: 70;
+  }
+
+  div:nth-child(2) {
+    flex: 30;
+  }
 }
 </style>

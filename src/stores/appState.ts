@@ -1,10 +1,13 @@
 import { defineStore } from 'pinia'
 import { pageType, pagesEnum } from '../pages'
 import { pages } from '../pages'
+import { layoutEnum } from '../pages'
 
 export const useAppStore = defineStore('appState', {
   state: () => ({
-    currentPage: 'home' as pagesEnum,
+    currentPage: 'calendar' as pagesEnum,
+    isMobile: false as boolean,
+    layout: layoutEnum.seventyThird as layoutEnum,
   }),
   getters: {
     getCurrentPage() {
@@ -17,6 +20,9 @@ export const useAppStore = defineStore('appState', {
   actions: {
     setCurrentPage(page: pagesEnum) {
       this.currentPage = page
+    },
+    setIsMobile(isMobile: boolean) {
+      this.isMobile = isMobile
     },
   }
 })

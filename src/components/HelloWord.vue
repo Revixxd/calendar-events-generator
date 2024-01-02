@@ -1,6 +1,6 @@
 <template>
     <div>
-        calendar
+        hello world
     </div>
 </template>
 
