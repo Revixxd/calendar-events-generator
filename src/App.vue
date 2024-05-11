@@ -18,7 +18,7 @@
 import { watch } from 'vue';
 import { useAppStore } from './stores/appState'
 import { useMediaQuery } from '@vueuse/core'
-import DesktopComponentContainer from './components/containers/DesktopComponentContainer.vue'
+import DesktopComponentContainer from './components/containers/desktopcomponentcontainer.vue'
 
 const appStore = useAppStore()
 const isMobile = useMediaQuery('(max-width: 800px)')
@@ -37,7 +37,7 @@ watch(isMobile, (isMobile) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: green;
+  background-color: #F1FAEE;
 
   .desktop-container {
     width: 90vw;

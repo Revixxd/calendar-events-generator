@@ -9,6 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.10",
+    "@fullcalendar/interaction": "^6.1.11",
+    "@fullcalendar/timegrid": "^6.1.10",
+    "@fullcalendar/vue3": "^6.1.10",
     "@vueuse/core": "^10.7.1",
     "file-saver": "^2.0.5",
     "ics": "^3.5.0",
