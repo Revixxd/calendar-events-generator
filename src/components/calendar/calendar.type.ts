@@ -1,13 +1,3 @@
-enum WeekDaysEnum {
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday'
-}
-
 export type Event = {
     id: string,
     allDay: boolean,

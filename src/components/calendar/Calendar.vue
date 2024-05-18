@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import fullcalendar from '@fullcalendar/vue3'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -50,6 +50,9 @@ const calendarOptions: CalendarOptions = {
     eventDrop(info) {
         updateEvent(info.event)
     },
+    eventClick: (info) => {
+        calendarStore.setCurrentEvent(calendarEvents.value.find((e) => e.id === info.event.id) as Event)
+    },
     views: {
         timeGridWeek: {
             slotDuration: '00:30:00',
@@ -74,6 +77,18 @@ const calendarOptions: CalendarOptions = {
     events: calendarEvents.value
     
 }
+
+watch(events, (events) => {
+    calendarEvents.value = mapEventsWithTimeTableDays(events)
+})
+
+watch(calendarEvents.value, (events) => {
+    calendarStore.setEvents(events)
+})
+
+onMounted(() => {
+    calendarStore.setCurrentEvent(calendarEvents.value[0])
+})
 
 function updateEvent(event: EventApi) {
     const updatedEvent = calendarEvents.value.find((e) => e.id === event.id)
