@@ -16,14 +16,15 @@ export const useCalendarStore = defineStore('calendarState', {
     },
     actions: {
         setCurrentEvent(event: Event) {
-            console.log(event)
             this.currentEvent = event
+            console.log(this.currentEvent)
         },
         setEvents(events: Event[]) {
             this.events = events
         },
         appendEvent(event: Event) {
             this.events.push(event)
+            console.log(this.events)
         }
     }
 })

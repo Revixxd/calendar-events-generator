@@ -87,7 +87,10 @@ watch(calendarEvents.value, (events) => {
 })
 
 onMounted(() => {
-    calendarStore.setCurrentEvent(calendarEvents.value[0])
+    if(calendarEvents.value.length > 0) {
+        calendarStore.setCurrentEvent(calendarEvents.value[0])
+    }
+    
 })
 
 function updateEvent(event: EventApi) {
