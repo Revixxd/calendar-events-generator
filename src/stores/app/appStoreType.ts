@@ -1,7 +1,7 @@
 import { DefineComponent } from 'vue'
-import HelloWorld from '../components/HelloWord.vue'
-import CalendarComponent from '../components/CalendarComponent.vue'
-import CalendarInterface from '../components/CalendarInterface.vue'
+import HelloWorld from '../../components/HelloWord.vue'
+import CalendarComponent from '../../components/calendar/Calendar.vue'
+import CalendarInterface from '../../components/CalendarInterface.vue'
 
 // to do remove defineComponent error
 export const desktopComponents: Record<string, DefineComponent> = {

@@ -1,4 +1,4 @@
-import { desktopComponents, mobileComponents } from './stores/appStoreType';
+import { desktopComponents, mobileComponents } from './stores/app/appStoreType';
 import { DefineComponent } from 'vue';
 
 export enum pagesEnum {

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import { pageType, pagesEnum } from '../pages'
-import { pages } from '../pages'
-import { layoutEnum } from '../pages'
+import { pageType, pagesEnum } from '../../pages'
+import { pages } from '../../pages'
+import { layoutEnum } from '../../pages'
 
 export const useAppStore = defineStore('appState', {
   state: () => ({

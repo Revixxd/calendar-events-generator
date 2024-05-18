@@ -16,14 +16,26 @@
 
 <script setup lang="ts">
 import { watch } from 'vue';
-import { useAppStore } from './stores/appState'
+import { useAppStore } from './stores/app/appState'
+import { useCalendarStore } from './stores/calendar/calendarStore'
 import { useMediaQuery } from '@vueuse/core'
 import DesktopComponentContainer from './components/containers/desktopcomponentcontainer.vue'
 
-const appStore = useAppStore()
 const isMobile = useMediaQuery('(max-width: 800px)')
 
-console.log(appStore.getPageData)
+const appStore = useAppStore()
+const calendarStore = useCalendarStore()
+
+
+calendarStore.setEvents([
+  {
+    id: '1',
+    start: new Date('2024-05-11T10:00:00'),
+    end: new Date('2024-05-11T12:00:00'),
+    allDay: false,
+    weekDay: 'Monday',
+  }
+])
 
 watch(isMobile, (isMobile) => {
   appStore.setIsMobile(isMobile)
@@ -72,4 +84,4 @@ watch(isMobile, (isMobile) => {
     flex: 30;
   }
 }
-</style>
+</style>./stores/app/appState
