@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="currentEvent">
         <div class="">
             <p>Nazwa wydarzenia:</p>
             <input :placeholder="currentEvent.title" type="text"/>
@@ -12,6 +12,9 @@
             <p>godzina start</p>
             <input type="time"/>
         </div>
+        <pre>
+            {{currentEvent}}
+        </pre>
     </div>
 </template>
 

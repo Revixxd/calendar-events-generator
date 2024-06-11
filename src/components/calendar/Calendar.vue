@@ -42,7 +42,7 @@ const calendarOptions: CalendarOptions = {
             allDay: info.allDay,
             weekDay: info.start.toLocaleDateString('en-US', {weekday: 'long'})
         }
-        calendarEvents.value.push(newEvent)
+        addEvent(newEvent)
     },
     eventResize: (info) => {
         updateEvent(info.event)
@@ -78,13 +78,9 @@ const calendarOptions: CalendarOptions = {
     
 }
 
-watch(events, (events) => {
-    calendarEvents.value = mapEventsWithTimeTableDays(events)
-})
-
-watch(calendarEvents.value, (events) => {
-    calendarStore.setEvents(events)
-})
+// watch(events, (events) => {
+//     calendarEvents.value = mapEventsWithTimeTableDays(events)
+// })
 
 onMounted(() => {
     if(calendarEvents.value.length > 0) {
@@ -92,6 +88,11 @@ onMounted(() => {
     }
     
 })
+
+function addEvent(event: Event) {
+    calendarEvents.value.push(event)
+    calendarStore.setEvents(calendarEvents.value)
+}
 
 function updateEvent(event: EventApi) {
     const updatedEvent = calendarEvents.value.find((e) => e.id === event.id)
