@@ -26,17 +26,6 @@ const isMobile = useMediaQuery('(max-width: 800px)')
 const appStore = useAppStore()
 const calendarStore = useCalendarStore()
 
-
-calendarStore.setEvents([
-  {
-    id: '1',
-    start: new Date('2024-05-11T10:00:00'),
-    end: new Date('2024-05-11T12:00:00'),
-    allDay: false,
-    weekDay: 'Monday',
-  }
-])
-
 watch(isMobile, (isMobile) => {
   appStore.setIsMobile(isMobile)
 })
