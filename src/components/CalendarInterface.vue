@@ -16,24 +16,24 @@
             {{currentEvent}}
         </pre>
     </div>
+    <button @click="generateFileButton">Wygeneruj plik</button>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useCalendarStore } from '../stores/calendar/calendarStore'
+import {mapToEventAttributes, generateICSFile} from '../utilities/ics/generateFile'
 
 const calendarStore = useCalendarStore()
 
 const currentEvent = computed(() => calendarStore.geCurrentEvent)
+const events = computed(() => calendarStore.getEvents)
 
-function addEvent() {
-    calendarStore.appendEvent({
-        "id": "2",
-        "allDay": false,
-        "weekDay": "Monday",
-        "start": new Date("2024-05-17T08:00:06.997Z"),
-        "end": new Date ("2024-05-18T10:00:06.997Z")
+function generateFileButton() {
+    const MappedEvents = events.value.map(element => {
+        return mapToEventAttributes(element)
     })
+    generateICSFile(MappedEvents)
 }
 
 </script>

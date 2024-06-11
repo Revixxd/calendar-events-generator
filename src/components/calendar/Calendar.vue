@@ -11,13 +11,13 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { CalendarOptions } from '@fullcalendar/core'
 import { EventApi } from '@fullcalendar/core/index.js'
-import { Event } from './calendar.type'
+import { CalendarEvent } from './calendar.type'
 import { useCalendarStore } from '../../stores/calendar/calendarStore'
 import { mapEventsWithTimeTableDays } from './calendarHelpers'
 
 const calendarStore = useCalendarStore()
 const events = computed(() => calendarStore.getEvents)
-const calendarEvents = ref<Event[]>(mapEventsWithTimeTableDays(events.value))
+const calendarEvents = ref<CalendarEvent[]>(mapEventsWithTimeTableDays(events.value))
 
 const calendarOptions: CalendarOptions = {
     plugins: [timeGridPlugin, interactionPlugin],

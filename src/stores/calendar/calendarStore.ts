@@ -1,28 +1,28 @@
 import { defineStore } from 'pinia'
-import { Event } from '../../components/calendar/calendar.type'
+import { CalendarEvent } from '../../components/calendar/calendar.type'
 
 export const useCalendarStore = defineStore('calendarState', {
     state: () => ({
-        events: [] as Event[],
-        currentEvent: null as Event | null
+        events: [] as CalendarEvent[],
+        currentEvent: null as CalendarEvent | null
     }),
     getters: {
-        getEvents() {
+        getEvents(): CalendarEvent[] {
             return this.events
         },
-        geCurrentEvent() {
+        geCurrentEvent(): CalendarEvent | null{
             return this.currentEvent
         }
     },
     actions: {
-        setCurrentEvent(event: Event) {
-            this.currentEvent = event
+        setCurrentEvent(CalendarEvent: CalendarEvent) {
+            this.currentEvent = CalendarEvent
         },
-        setEvents(passedEvents: Event[]) {
+        setEvents(passedEvents: CalendarEvent[]) {
             this.events = passedEvents
         },
-        appendEvent(event: Event) {
-            this.events.push(event)
+        appendEvent(CalendarEvent: CalendarEvent) {
+            this.events.push(CalendarEvent)
         }
     }
 })
