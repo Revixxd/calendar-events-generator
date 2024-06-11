@@ -3,5 +3,5 @@ export type CalendarEvent = {
     allDay: boolean,
     weekDay: string ,
     start: Date,
-    end: Date,
+    end: Date
 }

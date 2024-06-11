@@ -1,4 +1,4 @@
-import { Event } from "./calendar.type"
+import { CalendarEvent } from "./calendar.type"
 
 const currentWeekDates = getWeekDates()
 
@@ -22,14 +22,15 @@ export function getWeekDates() {
     return dates
 }
 
-export function mapEventsWithTimeTableDays(events: Event[]){
-    return events.map((event: Event) => {
+export function mapEventsWithTimeTableDays(events: CalendarEvent[]){
+    return events.map((event: CalendarEvent) => {
         return {
             id: event.id,
             allDay: event.allDay,
             weekDay: event.weekDay,
             start: manipulateDate(currentWeekDates, event.start, 'start'),
             end: manipulateDate(currentWeekDates, event.end, 'end'),
+            description: event.description
         }
     })
 }

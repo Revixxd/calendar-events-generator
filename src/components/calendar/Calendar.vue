@@ -51,7 +51,7 @@ const calendarOptions: CalendarOptions = {
         updateEvent(info.event)
     },
     eventClick: (info) => {
-        calendarStore.setCurrentEvent(calendarEvents.value.find((e) => e.id === info.event.id) as Event)
+        calendarStore.setCurrentEvent(calendarEvents.value.find((e) => e.id === info.event.id) as CalendarEvent)
     },
     views: {
         timeGridWeek: {
@@ -75,12 +75,8 @@ const calendarOptions: CalendarOptions = {
         }
     },
     events: calendarEvents.value
-    
 }
 
-// watch(events, (events) => {
-//     calendarEvents.value = mapEventsWithTimeTableDays(events)
-// })
 
 onMounted(() => {
     if(calendarEvents.value.length > 0) {
@@ -89,7 +85,7 @@ onMounted(() => {
     
 })
 
-function addEvent(event: Event) {
+function addEvent(event: CalendarEvent) {
     calendarEvents.value.push(event)
     calendarStore.setEvents(calendarEvents.value)
 }
