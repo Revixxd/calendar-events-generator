@@ -25,12 +25,9 @@ export function getWeekDates() {
 export function mapEventsWithTimeTableDays(events: CalendarEvent[]){
     return events.map((event: CalendarEvent) => {
         return {
-            id: event.id,
-            allDay: event.allDay,
-            weekDay: event.weekDay,
+            ...event,
             start: manipulateDate(currentWeekDates, event.start, 'start'),
             end: manipulateDate(currentWeekDates, event.end, 'end'),
-            description: event.description
         }
     })
 }

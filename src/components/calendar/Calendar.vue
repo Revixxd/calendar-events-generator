@@ -40,15 +40,20 @@ const calendarOptions: CalendarOptions = {
             start: info.start,
             end: info.end,
             allDay: info.allDay,
-            weekDay: info.start.toLocaleDateString('en-US', {weekday: 'long'})
+            weekDay: info.start.toLocaleDateString('en-US', {weekday: 'long'}),
+            title: "title",
+            description: "description",
+            backgroundColor: '#3788d8'
         }
         addEvent(newEvent)
     },
     eventResize: (info) => {
         updateEvent(info.event)
+        calendarStore.setCurrentEvent(calendarEvents.value.find((e) => e.id === info.event.id) as CalendarEvent)
     },
     eventDrop(info) {
         updateEvent(info.event)
+        calendarStore.setCurrentEvent(calendarEvents.value.find((e) => e.id === info.event.id) as CalendarEvent)
     },
     eventClick: (info) => {
         calendarStore.setCurrentEvent(calendarEvents.value.find((e) => e.id === info.event.id) as CalendarEvent)
@@ -71,19 +76,41 @@ const calendarOptions: CalendarOptions = {
                 minute: '2-digit',
                 omitZeroMinute: false,
                 meridiem: 'short'
-            }
+            },
         }
     },
+    eventContent: function (arg) {
+        const event = arg.event;
+        if(!event.extendedProps.description) {
+            return
+        }
+
+        const customHtml = `
+            <div class="fc-content">
+                <div class="fc-event-time">${event.start?.getHours()}:${event.start?.getMinutes().toString().padStart(2, '0')} - ${event.end?.getHours()}:${event.end?.getMinutes().toString().padStart(2, '0')}</div>
+                <div class="fc-event-title">${event.title}</div>
+                <div class="fc-description">${event.extendedProps.description}</div>
+            </div>
+        `
+    
+    
+        return { html: customHtml }
+    },
     events: calendarEvents.value
-}
+    }
 
 
 onMounted(() => {
     if(calendarEvents.value.length > 0) {
         calendarStore.setCurrentEvent(calendarEvents.value[0])
-    }
-    
+    }  
 })
+
+// watch(events, (newEvents) => {
+//     calendarEvents.value = newEvents
+//     console.log(calendarEvents)
+//     calendarOptions.events = calendarEvents.value
+// })
 
 function addEvent(event: CalendarEvent) {
     calendarEvents.value.push(event)

@@ -4,4 +4,7 @@ export type CalendarEvent = {
     weekDay: string ,
     start: Date,
     end: Date
+    title: string,
+    description: string,
+    backgroundColor: string,
 }

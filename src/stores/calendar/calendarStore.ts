@@ -10,7 +10,7 @@ export const useCalendarStore = defineStore('calendarState', {
         getEvents(): CalendarEvent[] {
             return this.events
         },
-        geCurrentEvent(): CalendarEvent | null{
+        geCurrentEvent(): CalendarEvent | null {
             return this.currentEvent
         }
     },
@@ -21,8 +21,13 @@ export const useCalendarStore = defineStore('calendarState', {
         setEvents(passedEvents: CalendarEvent[]) {
             this.events = passedEvents
         },
-        appendEvent(CalendarEvent: CalendarEvent) {
-            this.events.push(CalendarEvent)
+        updateEvent(CalendarEvent: CalendarEvent) {
+            const newEvent = JSON.parse(JSON.stringify(CalendarEvent))
+            const index = this.events.findIndex((event) => event.id === newEvent.id)
+            this.events[index] = newEvent
+        },
+        deleteEvent(calendarEvent: CalendarEvent) {
+            this.events = this.events.filter((event) => event.id !== calendarEvent.id)
         }
     }
 })
