@@ -22,7 +22,7 @@ export function getWeekDates() {
     return dates
 }
 
-export function mapEventsWithTimeTableDays(events: CalendarEvent[]){
+export function mapEventsWithTimeTableDays(events: CalendarEvent[]):CalendarEvent[]{
     return events.map((event: CalendarEvent) => {
         return {
             ...event,
@@ -32,7 +32,8 @@ export function mapEventsWithTimeTableDays(events: CalendarEvent[]){
     })
 }
 
-function manipulateDate(currentWeekDates: { name: string; date: Date }[], date: Date, string:string):Date {
+function manipulateDate(currentWeekDates: { name: string; date: Date }[], date: Date, string:string):Date {    
+    date = new Date(date)
     const day = currentWeekDates.find((day) => day.name === date.toLocaleDateString('en-US', {weekday: 'long'}) )
 
     if(day) {

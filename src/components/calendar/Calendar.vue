@@ -1,11 +1,12 @@
 <template>
     <div class="calendar-component-container">
-        <fullcalendar :options="calendarOptions" />
+        <fullcalendar :options="calendarOptions" ref="calendarRef" />
     </div>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
+import type { Ref } from 'vue'
 import fullcalendar from '@fullcalendar/vue3'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -13,13 +14,15 @@ import { CalendarOptions } from '@fullcalendar/core'
 import { EventApi } from '@fullcalendar/core/index.js'
 import { CalendarEvent } from './calendar.type'
 import { useCalendarStore } from '../../stores/calendar/calendarStore'
-import { mapEventsWithTimeTableDays } from './calendarHelpers'
+// import { mapEventsWithTimeTableDays } from './calendarHelpers'
 
+const calendarRef = ref<InstanceType<typeof fullcalendar>>()
 const calendarStore = useCalendarStore()
-const events = computed(() => calendarStore.getEvents)
-const calendarEvents = ref<CalendarEvent[]>(mapEventsWithTimeTableDays(events.value))
+const events = computed(() => calendarStore.getMappedEvents)
+// const events = computed(() => calendarStore.getEvents)
+// const calendarEvents = ref<CalendarEvent[]>(mapEventsWithTimeTableDays(events.value))
 
-const calendarOptions: CalendarOptions = {
+const calendarOptions: Ref<CalendarOptions> = ref({
     plugins: [timeGridPlugin, interactionPlugin],
     initialView: 'timeGridWeek',
     headerToolbar: {
@@ -46,17 +49,18 @@ const calendarOptions: CalendarOptions = {
             backgroundColor: '#3788d8'
         }
         addEvent(newEvent)
+        calendarStore.setCurrentEvent(newEvent.id)
     },
     eventResize: (info) => {
         updateEvent(info.event)
-        calendarStore.setCurrentEvent(calendarEvents.value.find((e) => e.id === info.event.id) as CalendarEvent)
+        calendarStore.setCurrentEvent(info.event.id)
     },
     eventDrop(info) {
         updateEvent(info.event)
-        calendarStore.setCurrentEvent(calendarEvents.value.find((e) => e.id === info.event.id) as CalendarEvent)
+        calendarStore.setCurrentEvent(info.event.id)
     },
     eventClick: (info) => {
-        calendarStore.setCurrentEvent(calendarEvents.value.find((e) => e.id === info.event.id) as CalendarEvent)
+        calendarStore.setCurrentEvent(info.event.id)
     },
     views: {
         timeGridWeek: {
@@ -96,35 +100,36 @@ const calendarOptions: CalendarOptions = {
     
         return { html: customHtml }
     },
-    events: calendarEvents.value
-    }
-
-
-onMounted(() => {
-    if(calendarEvents.value.length > 0) {
-        calendarStore.setCurrentEvent(calendarEvents.value[0])
-    }  
+    events: events.value
 })
 
-// watch(events, (newEvents) => {
-//     calendarEvents.value = newEvents
-//     console.log(calendarEvents)
-//     calendarOptions.events = calendarEvents.value
-// })
-
 function addEvent(event: CalendarEvent) {
-    calendarEvents.value.push(event)
-    calendarStore.setEvents(calendarEvents.value)
+    calendarStore.addEvent(event)
 }
 
 function updateEvent(event: EventApi) {
-    const updatedEvent = calendarEvents.value.find((e) => e.id === event.id)
-    if (updatedEvent) {
-        updatedEvent.start = event.start as Date
-        updatedEvent.end = event.end  as Date
-        updatedEvent.allDay = event.allDay
-    } else {
-        console.log('event not found')
+    const mappedEvent = {
+        id: event.id,
+        allDay: event.allDay,
+        weekDay: event.start?.toLocaleDateString('en-US', {weekday: 'long'}),
+        start: event.start,
+        end: event.end,
+        title: event.title,
+        description: event.extendedProps.description,
+        backgroundColor: event.backgroundColor
+    
+    } as CalendarEvent
+    calendarStore.updateEvent(mappedEvent)
+}
+
+
+watch(events, () => {
+    assignNewEventsToPropsIfCalendarMounted();
+});
+
+function assignNewEventsToPropsIfCalendarMounted() {
+    if (calendarRef.value?.getApi()) {
+        calendarOptions.value.events = events.value;
     }
 }
 
