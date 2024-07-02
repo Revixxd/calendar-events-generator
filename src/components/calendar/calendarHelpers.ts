@@ -22,20 +22,18 @@ export function getWeekDates() {
     return dates
 }
 
-export function mapEventsWithTimeTableDays(events: CalendarEvent[]){
+export function mapEventsWithTimeTableDays(events: CalendarEvent[]):CalendarEvent[]{
     return events.map((event: CalendarEvent) => {
         return {
-            id: event.id,
-            allDay: event.allDay,
-            weekDay: event.weekDay,
+            ...event,
             start: manipulateDate(currentWeekDates, event.start, 'start'),
             end: manipulateDate(currentWeekDates, event.end, 'end'),
-            description: event.description
         }
     })
 }
 
-function manipulateDate(currentWeekDates: { name: string; date: Date }[], date: Date, string:string):Date {
+function manipulateDate(currentWeekDates: { name: string; date: Date }[], date: Date, string:string):Date {    
+    date = new Date(date)
     const day = currentWeekDates.find((day) => day.name === date.toLocaleDateString('en-US', {weekday: 'long'}) )
 
     if(day) {
